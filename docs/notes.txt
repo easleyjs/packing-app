@@ -1,0 +1,31 @@
+User hits landing page (login)
+User logs in, sees either list of Events or Empty
+User selects and Event whose containers they want to view
+User adds Containers as needed
+User adds Items to Containers
+User goes to List View to export Shopping List
+
+
+
+
+*Maybe*:
+EVENTS - CONTAINERS - ITEMS - LISTS
+
+
+TO-DO:
+
+- JSON/Schema for:
+	- Events
+	- Containers
+	- Items
+
+- Create git repo/link to existing directory
+- Setup/identify Mantine components
+- Setup React Router to use appropriate (Mantine) components
+- Setup Firebase for object storage
+
+
+- OAuth/Google login
+
+
+support engineer roles
