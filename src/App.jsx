@@ -3,6 +3,9 @@ import { Provider, useDispatch, useSelector } from 'react-redux';
 import store from './store';
 
 import './App.css'
+import { MantineProvider } from '@mantine/core';
+// Reminder - all packages except `@mantine/hooks` require styles imports
+import '@mantine/core/styles.css';
 
 import RootLayout from './pages/Root.jsx';
 import HomePage from './pages/Home.jsx';
@@ -48,7 +51,9 @@ function App() {
 
   return (
     <Provider store={ store }>
-      <RouterProvider router={ router }></RouterProvider>
+      <MantineProvider>
+        <RouterProvider router={ router }></RouterProvider>
+      </MantineProvider>
     </Provider>
   )
 }
