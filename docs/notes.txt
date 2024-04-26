@@ -14,12 +14,6 @@ EVENTS - CONTAINERS - ITEMS - LISTS
 
 TO-DO:
 
-- JSON/Schema for:
-	- Events
-	- Containers
-	- Items
-
-- Create git repo/link to existing directory
 - Setup/identify Mantine components
 - Setup React Router to use appropriate (Mantine) components
 - Setup Firebase for object storage

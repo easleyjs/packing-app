@@ -1,3 +1,9 @@
 node_modules/*
 node_modules
 .env
+.eslint.config.js
+.eslint.json
+eslint.config.js
+package-lock.json
+.gitignore
+*.Identifier
