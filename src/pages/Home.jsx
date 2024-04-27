@@ -1,20 +1,23 @@
+import { Button, Center, Stack } from '@mantine/core'
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-// Gonna try putting the Mantine app shell in here.
+// <h1>Events</h1>
 
 function HomePage () {
-  function myFunction ( test, someVar ) {
-
-  }
-
   return (
       <>
-          <h1>My Home Page</h1>
-          <Link
-                to="/containers"
-          >Containers
-          </Link>
+          <Center py="10%">
+              <Stack
+                  h={180}
+                  align="center"
+                  justify="center"
+                  gap={0}
+              >
+                  <h2>No Events here yet!</h2>
+                  <h3>Why not <Button>Add</Button> one?</h3>
+              </Stack>
+          </Center>
       </>
   )
 }

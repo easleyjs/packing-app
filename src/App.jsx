@@ -34,6 +34,8 @@ setup lazy loading on non-"home" pages
 deploy to firebase hosting
 */
 
+// https://mantine.dev/styles/css-variables/#css-variables-resolver
+
 function App () {
   const router = createBrowserRouter( [
     {

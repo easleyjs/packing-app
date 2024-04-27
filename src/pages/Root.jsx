@@ -1,17 +1,8 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
 import MainNavigation from '../components/MainNavigation'
-import { AppShell, Burger, Group, Skeleton } from '@mantine/core'
+import { AppShell, Burger, Center, Skeleton } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
-
-/*
-      <>
-          <MainNavigation />
-          <main>
-              <Outlet />
-          </main>
-      </>
-*/
 
 function RootLayout () {
   const [opened, { toggle }] = useDisclosure()
@@ -24,9 +15,9 @@ function RootLayout () {
       <AppShell
         header={{ height: 60 }}
         footer={{ height: 60 }}
-        navbar={{ width: 300, breakpoint: 'sm', collapsed: { mobile: !opened } }}
-        aside={{ width: 300, breakpoint: 'md', collapsed: { desktop: false, mobile: true } }}
-        padding="md"
+        navbar={{ width: 300, breakpoint: 'sm', collapsed: { desktop: true, mobile: !opened } }}
+        aside={{ width: 300, breakpoint: 'md', collapsed: { desktop: true, mobile: true } }}
+        padding="sm"
       >
           <AppShell.Header>
               <MainNavigation />
@@ -42,8 +33,8 @@ function RootLayout () {
           <AppShell.Main>
               <Outlet />
           </AppShell.Main>
-          <AppShell.Aside p="md">Aside</AppShell.Aside>
-          <AppShell.Footer p="md">Footer</AppShell.Footer>
+          <AppShell.Aside display={false} p="md">Aside</AppShell.Aside>
+          <AppShell.Footer p="md"><Center>Created by easleyjs</Center></AppShell.Footer>
       </AppShell>
   )
 }

@@ -1,19 +1,39 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Group } from '@mantine/core'
+import { Grid, Anchor } from '@mantine/core'
 
 // import classes from './MainNavigation.module.css'
 
 function MainNavigation () {
   return (
-      <Group justify="center">
-          <Link to="/"><h3>Home</h3></Link>
-          <Link to="/">Items</Link>
-          <Link to="/containers">Containers</Link>
-          <Link to="/">Events</Link>
-          <Link to="/">Lists</Link>
-          <Link to="/">Contact Us</Link>
-      </Group>
+      <Grid py="md" justify="flex-start" align="flex-start" grow>
+          <Grid.Col span="content" offset={2}>
+              <Anchor underline="never" size="xl" component={Link} to="/">
+                  PACKMATIC
+              </Anchor>
+          </Grid.Col>
+          <Grid.Col span="content" offset={4}>
+              <Anchor underline="never" size="xl" component={Link} to="/events">
+                  Events
+              </Anchor>
+          </Grid.Col>
+          <Grid.Col span="content">
+              <Anchor underline="never" size="xl" component={Link} to="/containers">
+                  Containers
+              </Anchor>
+          </Grid.Col>
+          <Grid.Col span="content">
+              <Anchor underline="never" size="xl" component={Link} to="/">
+                  Lists
+              </Anchor>
+          </Grid.Col>
+          <Grid.Col span={1}>
+              <Anchor underline="never" size="xl" component={Link} to="/">
+                  Contact Us
+              </Anchor>
+          </Grid.Col>
+          <Grid.Col span={1}></Grid.Col>
+      </Grid>
   )
 }
 
