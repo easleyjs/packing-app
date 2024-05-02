@@ -4,6 +4,20 @@ import { Grid, Text, Paper, Button } from '@mantine/core'
 export default function EventDisplayCard ( { key, evt } ) {
   const { name, description, id } = evt
 
+  const eventSelectHandler = ( event, id ) => {
+    event.preventDefault()
+    alert( 'im a test event - new' )
+    // dispatch app slice update with selected id
+    // get data/containers for that event
+    // redirect to Containers page
+  }
+
+  const eventRemoveHandler = ( event, id ) => {
+    event.stopPropagation()
+    console.log( id )
+    // dispatch event remove action
+  }
+
   return (
       <Paper
         p="md"
@@ -14,7 +28,7 @@ export default function EventDisplayCard ( { key, evt } ) {
         w="40%"
         style={{ cursor: 'default' }}
         withBorder
-        onClick={() => { console.log( id ) }}
+        onClick={( e ) => eventSelectHandler( e, id )}
       >
           <Grid justify="space-between">
               <Grid.Col span="content">
@@ -24,7 +38,14 @@ export default function EventDisplayCard ( { key, evt } ) {
                   <Text c="gray" size="sm">{ description }</Text>
               </Grid.Col>
               <Grid.Col span={2}>
-                  <Button variant="light" color="red" size="xs" radius="xl">Remove</Button>
+                  <Button
+                    variant="light"
+                    color="red"
+                    size="xs"
+                    radius="xl"
+                    onClick={( e ) => eventRemoveHandler( e, id ) }
+                  >Remove
+                  </Button>
               </Grid.Col>
           </Grid>
       </Paper>
