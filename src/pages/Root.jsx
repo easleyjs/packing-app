@@ -15,7 +15,7 @@ function RootLayout () {
       <AppShell
         header={{ height: 60 }}
         footer={{ height: 60 }}
-        navbar={{ width: 300, breakpoint: 'sm', collapsed: { desktop: true, mobile: !opened } }}
+        navbar={{ width: 300, breakpoint: 'sm', collapsed: { desktop: false, mobile: !opened } }}
         aside={{ width: 300, breakpoint: 'md', collapsed: { desktop: true, mobile: true } }}
         padding="sm"
       >
