@@ -26,13 +26,6 @@ optimize New Container form:
 - input component, select component
 - input validation
 
-firebase storage of containers/items/events/lists
-.env file
-tailwind
-nested children have "sub-header" component? Not homepage.
-authentication
-setup lazy loading on non-"home" pages
-deploy to firebase hosting
 */
 
 // https://mantine.dev/styles/css-variables/#css-variables-resolver

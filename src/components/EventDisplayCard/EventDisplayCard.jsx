@@ -1,8 +1,9 @@
 import React from 'react'
 import { Grid, Text, Paper, Button } from '@mantine/core'
 
-export default function EventDisplayCard ( { key, evt } ) {
+export default function EventDisplayCard ( { evt, removeEvent } ) {
   const { name, description, id } = evt
+  // console.log( evt )
 
   const eventSelectHandler = ( event, id ) => {
     event.preventDefault()
@@ -14,8 +15,8 @@ export default function EventDisplayCard ( { key, evt } ) {
 
   const eventRemoveHandler = ( event, id ) => {
     event.stopPropagation()
-    console.log( id )
     // dispatch event remove action
+    removeEvent( id )
   }
 
   return (
@@ -24,7 +25,7 @@ export default function EventDisplayCard ( { key, evt } ) {
         mt="sm"
         shadow="md"
         radius="md"
-        key={key}
+        key={id}
         w="40%"
         style={{ cursor: 'default' }}
         withBorder
