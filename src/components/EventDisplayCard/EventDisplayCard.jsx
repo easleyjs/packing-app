@@ -1,9 +1,13 @@
 import React from 'react'
+import { useMutation } from '@tanstack/react-query'
+import { deleteEvent } from '../../util/http'
 import { Grid, Text, Paper, Button } from '@mantine/core'
 
-export default function EventDisplayCard ( { evt, removeEvent } ) {
+export default function EventDisplayCard ( { evt } ) {
   const { name, description, id } = evt
-  // console.log( evt )
+  const { mutate } = useMutation( {
+    mutationFn: deleteEvent
+  } )
 
   const eventSelectHandler = ( event, id ) => {
     event.preventDefault()
@@ -13,10 +17,9 @@ export default function EventDisplayCard ( { evt, removeEvent } ) {
     // redirect to Containers page
   }
 
-  const eventRemoveHandler = ( event, id ) => {
+  const handleRemoveEvent = ( event, id ) => {
     event.stopPropagation()
-    // dispatch event remove action
-    removeEvent( id )
+    mutate( { id } )
   }
 
   return (
@@ -44,7 +47,7 @@ export default function EventDisplayCard ( { evt, removeEvent } ) {
                     color="red"
                     size="xs"
                     radius="xl"
-                    onClick={( e ) => eventRemoveHandler( e, id ) }
+                    onClick={( e ) => handleRemoveEvent( e, id ) }
                   >Remove
                   </Button>
               </Grid.Col>

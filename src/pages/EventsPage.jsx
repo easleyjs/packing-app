@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { fetchEvents } from '../util/http.js'
 import { Link } from 'react-router-dom'
-import { Button, Container, Modal, Stack, Text } from '@mantine/core'
+import { Button, Container, Stack, Text } from '@mantine/core'
 import store from '../store/index'
 import { eventActions } from '../store/event-slice.js'
 import EventDisplayCard from '../components/EventDisplayCard/EventDisplayCard.jsx'
@@ -11,8 +11,7 @@ import NewEventModal from '../components/NewEventModal/NewEventModal.jsx'
 function EventsPage () {
   const { data, isPending, isError, error } = useQuery( {
     queryKey: ['events'],
-    queryFn: fetchEvents,
-    staleTime: 10000
+    queryFn: fetchEvents
   } )
 
   const [ opened, setOpened ] = useState( false )
@@ -33,9 +32,6 @@ function EventsPage () {
     store.dispatch( eventActions.add( eventDetails ) )
   }
 
-  const handleRemoveEvent = ( id ) => {
-    store.dispatch( eventActions.remove( { id } ) )
-  }
   console.log( data )
   return (
       <>
@@ -43,7 +39,7 @@ function EventsPage () {
           { data && data.length > 0
             ? <>
                 <Button variant="outline" color="indigo" size="compact-xs" mb="0.35rem" onClick={handleModalOpen}>Add Event</Button>
-                { data.map( ( e ) => { return <EventDisplayCard key={e.id} evt={e} removeEvent={handleRemoveEvent} /> } ) }
+                { data.map( ( e ) => { return <EventDisplayCard key={e.id} evt={e} /> } ) }
               </>
             : <Container
                     mt="10%"
