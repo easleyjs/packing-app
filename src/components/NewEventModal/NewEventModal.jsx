@@ -1,4 +1,6 @@
 import React from 'react'
+import { useMutation } from '@tanstack/react-query'
+import { createNewEvent } from '../../util/http'
 import { Button, Modal, Stack, TextInput } from '@mantine/core'
 import { useForm } from '@mantine/form'
 
@@ -8,7 +10,7 @@ add field validation later:
       email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
     },
 */
-export default function NewEventModal ( { opened, createEvent, closeModal, children } ) {
+export default function NewEventModal ( { opened, closeModal, children } ) {
   const form = useForm( {
     mode: 'uncontrolled',
     initialValues: {
@@ -16,10 +18,12 @@ export default function NewEventModal ( { opened, createEvent, closeModal, child
       description: ''
     }
   } )
+  const { mutate } = useMutation( {
+    mutationFn: createNewEvent
+  } )
 
   const handleSubmit = ( values ) => {
-    // console.log( values )
-    createEvent( values )
+    mutate( { event: values } )
     form.reset()
     closeModal()
   }

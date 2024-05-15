@@ -12,7 +12,7 @@ import '@mantine/core/styles.css'
 
 import RootLayout from './pages/Root.jsx'
 import HomePage from './pages/Home.jsx'
-import EventsPage, { eventLoader } from './pages/EventsPage.jsx'
+import EventsPage from './pages/EventsPage.jsx'
 import ContainersPage from './pages/ContainersPage.jsx' //, { containerLoader }
 import NewContainerPage, { createContainer } from './pages/NewContainerPage.jsx'
 import ContainerDetail from './pages/ContainerDetail.jsx'
@@ -37,7 +37,7 @@ function App () {
       element: <RootLayout />,
       children: [
         { index: true, element: <HomePage /> },
-        { path: 'events', element: <EventsPage />, loader: eventLoader },
+        { path: 'events', element: <EventsPage /> },
         { path: 'containers', element: <ContainersPage /> }, // loader: containerLoader
         { path: 'containers/new', element: <NewContainerPage />, action: createContainer },
         { path: 'containers/:containerId', element: <ContainerDetail /> }

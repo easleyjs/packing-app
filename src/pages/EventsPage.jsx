@@ -3,8 +3,8 @@ import { useQuery } from '@tanstack/react-query'
 import { fetchEvents } from '../util/http.js'
 import { Link } from 'react-router-dom'
 import { Button, Container, Stack, Text } from '@mantine/core'
-import store from '../store/index'
-import { eventActions } from '../store/event-slice.js'
+// import store from '../store/index'
+// import { eventActions } from '../store/event-slice.js'
 import EventDisplayCard from '../components/EventDisplayCard/EventDisplayCard.jsx'
 import NewEventModal from '../components/NewEventModal/NewEventModal.jsx'
 
@@ -28,11 +28,6 @@ function EventsPage () {
     } )
   }
 
-  const handleCreateEvent = ( eventDetails ) => {
-    store.dispatch( eventActions.add( eventDetails ) )
-  }
-
-  console.log( data )
   return (
       <>
           <Text size="xl" mr="0.5rem" span>My Events</Text>
@@ -54,19 +49,10 @@ function EventsPage () {
                     <h3>Why not <Button onClick={handleModalOpen}>Add</Button> one?</h3>
                 </Stack>
               </Container>
-
           }
-          <NewEventModal opened={opened} createEvent={handleCreateEvent} closeModal={handleModalClose} />
+          <NewEventModal opened={opened} closeModal={handleModalClose} />
       </>
   )
 }
 
 export default EventsPage
-
-export const eventLoader = async () => {
-  const events = await store.getState().events.eventList
-
-  // dispatch will go here THEN return containers eventually.
-
-  return events
-}
