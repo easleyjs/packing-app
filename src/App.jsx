@@ -1,5 +1,6 @@
 import React from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { QueryClientProvider, QueryClient, Query } from '@tanstack/react-query'
 import { Provider } from 'react-redux'
 import store from './store'
 
@@ -28,7 +29,7 @@ optimize New Container form:
 */
 
 // https://mantine.dev/styles/css-variables/#css-variables-resolver
-
+const queryClient = new QueryClient()
 function App () {
   const router = createBrowserRouter( [
     {
@@ -50,10 +51,12 @@ function App () {
             store={ store }
       >
           <MantineProvider>
-              <RouterProvider
+              <QueryClientProvider client={queryClient}>
+                  <RouterProvider
                     router={ router }
-              >
-              </RouterProvider>
+                  >
+                  </RouterProvider>
+              </QueryClientProvider>
           </MantineProvider>
       </Provider>
   )

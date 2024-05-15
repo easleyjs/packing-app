@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
-import { Link, useLoaderData } from 'react-router-dom'
+import { useQuery } from '@tanstack/react-query'
+import { fetchEvents } from '../util/http.js'
+import { Link } from 'react-router-dom'
 import { Button, Container, Modal, Stack, Text } from '@mantine/core'
 import store from '../store/index'
 import { eventActions } from '../store/event-slice.js'
@@ -7,8 +9,12 @@ import EventDisplayCard from '../components/EventDisplayCard/EventDisplayCard.js
 import NewEventModal from '../components/NewEventModal/NewEventModal.jsx'
 
 function EventsPage () {
-  const events = useLoaderData()
-  // console.log( events )
+  const { data, isPending, isError, error } = useQuery( {
+    queryKey: ['events'],
+    queryFn: fetchEvents,
+    staleTime: 10000
+  } )
+
   const [ opened, setOpened ] = useState( false )
 
   const handleModalOpen = () => {
@@ -30,30 +36,29 @@ function EventsPage () {
   const handleRemoveEvent = ( id ) => {
     store.dispatch( eventActions.remove( { id } ) )
   }
-  // console.log( events )
+  console.log( data )
   return (
       <>
           <Text size="xl" mr="0.5rem" span>My Events</Text>
-          { events.length > 0 &&
-              <>
-                  <Button variant="outline" color="indigo" size="compact-xs" mb="0.35rem" onClick={handleModalOpen}>Add Event</Button>
-                  { events.map( ( e ) => { return <EventDisplayCard key={e.id} evt={e} removeEvent={handleRemoveEvent} /> } ) }
+          { data && data.length > 0
+            ? <>
+                <Button variant="outline" color="indigo" size="compact-xs" mb="0.35rem" onClick={handleModalOpen}>Add Event</Button>
+                { data.map( ( e ) => { return <EventDisplayCard key={e.id} evt={e} removeEvent={handleRemoveEvent} /> } ) }
               </>
-          }
-          { events.length === 0 &&
-          <Container
+            : <Container
                     mt="10%"
-          >
-              <Stack
+              >
+                <Stack
                     h={180}
                     align="center"
                     justify="center"
                     gap={0}
-              >
-                  <h2>No Events here yet!</h2>
-                  <h3>Why not <Button onClick={handleModalOpen}>Add</Button> one?</h3>
-              </Stack>
-          </Container>
+                >
+                    <h2>No Events here yet!</h2>
+                    <h3>Why not <Button onClick={handleModalOpen}>Add</Button> one?</h3>
+                </Stack>
+              </Container>
+
           }
           <NewEventModal opened={opened} createEvent={handleCreateEvent} closeModal={handleModalClose} />
       </>

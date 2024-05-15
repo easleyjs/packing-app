@@ -1,9 +1,27 @@
 import { QueryClient } from '@tanstack/react-query'
 
 export const queryClient = new QueryClient()
+/*
+export function fetchEvents ( ) {
+  const events = [
+    {
+      id: 9823,
+      name: 'BM 2024',
+      description: "It's not just a music festival!"
+    },
+    {
+      id: 9824,
+      name: 'Reggae Fest 2024',
+      description: "It's a music festival!"
+    }
+  ]
+  console.log( events )
+  return events
+}
+*/
 
 export async function fetchEvents ( { signal, searchTerm } ) {
-  console.log( searchTerm )
+  // console.log( searchTerm )
   let url = 'http://localhost:3000/events'
 
   if ( searchTerm ) {
