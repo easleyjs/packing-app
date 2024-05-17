@@ -1,12 +1,15 @@
 import React from 'react'
 import { useMutation } from '@tanstack/react-query'
-import { deleteEvent } from '../../util/http'
+import { deleteEvent, queryClient } from '../../util/http'
 import { Grid, Text, Paper, Button } from '@mantine/core'
 
 export default function EventDisplayCard ( { evt } ) {
   const { name, description, id } = evt
   const { mutate } = useMutation( {
-    mutationFn: deleteEvent
+    mutationFn: deleteEvent,
+    onSuccess: () => {
+      queryClient.invalidateQueries( { queryKey: ['events'] } )
+    }
   } )
 
   const eventSelectHandler = ( event, id ) => {

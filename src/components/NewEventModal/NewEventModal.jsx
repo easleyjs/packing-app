@@ -1,6 +1,6 @@
 import React from 'react'
 import { useMutation } from '@tanstack/react-query'
-import { createNewEvent } from '../../util/http'
+import { createNewEvent, queryClient } from '../../util/http'
 import { Button, Modal, Stack, TextInput } from '@mantine/core'
 import { useForm } from '@mantine/form'
 
@@ -19,7 +19,10 @@ export default function NewEventModal ( { opened, closeModal, children } ) {
     }
   } )
   const { mutate } = useMutation( {
-    mutationFn: createNewEvent
+    mutationFn: createNewEvent,
+    onSuccess: () => {
+      queryClient.invalidateQueries( { queryKey: ['events'] } )
+    }
   } )
 
   const handleSubmit = ( values ) => {
