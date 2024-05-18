@@ -1,7 +1,7 @@
 import React from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { QueryClientProvider } from '@tanstack/react-query'
-import { queryClient } from './util/http.js'
+import { queryClient } from './util/firebase.js'
 import { Provider } from 'react-redux'
 import store from './store'
 

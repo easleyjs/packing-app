@@ -1,6 +1,6 @@
 import React from 'react'
 import { useMutation } from '@tanstack/react-query'
-import { createNewEvent, queryClient } from '../../util/http'
+import { queryClient } from '../../util/firebase'
 import { Button, Modal, Stack, TextInput } from '@mantine/core'
 import { useForm } from '@mantine/form'
 
@@ -10,7 +10,7 @@ add field validation later:
       email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
     },
 */
-export default function NewEventModal ( { opened, closeModal, children } ) {
+export default function EventModal ( { opened, closeModal, modalType, mutateFunction, children } ) {
   const form = useForm( {
     mode: 'uncontrolled',
     initialValues: {
@@ -18,15 +18,27 @@ export default function NewEventModal ( { opened, closeModal, children } ) {
       description: ''
     }
   } )
+
+  let [ modalTitle, btnText] = ''
+
+  if ( modalType === 'add' ) {
+    modalTitle = 'New Event'
+    btnText = 'Add'
+  }
+  if ( modalType === 'edit' ) {
+    modalTitle = 'Edit Event'
+    btnText = 'Update'
+  }
   const { mutate } = useMutation( {
-    mutationFn: createNewEvent,
+    mutationFn: mutateFunction,
     onSuccess: () => {
       queryClient.invalidateQueries( { queryKey: ['events'] } )
+      console.log( 'QueryData:', queryClient.getQueryData( { queryKey: ['events'] } ) )
     }
   } )
 
   const handleSubmit = ( values ) => {
-    mutate( { event: values } )
+    mutate( { ...values } )
     form.reset()
     closeModal()
   }
@@ -45,12 +57,14 @@ export default function NewEventModal ( { opened, closeModal, children } ) {
   }
 
   return (
-      <Modal opened={opened} onClose={handleClose} title="New Event">
-          <Stack
-            align="left"
-            justify="center"
-          >
-              <form onSubmit={ form.onSubmit( handleSubmit, handleErrors )}>
+      <Modal opened={opened} onClose={handleClose} title={modalTitle}>
+          <form onSubmit={ form.onSubmit( handleSubmit, handleErrors )}>
+              <Stack
+                align="left"
+                justify="center"
+                gap="lg"
+                p={10}
+              >
                   <TextInput
                     label="Name"
                     key={form.key( 'name' )}
@@ -61,9 +75,9 @@ export default function NewEventModal ( { opened, closeModal, children } ) {
                     key={form.key( 'description' )}
                     {...form.getInputProps( 'description' )}
                   />
-                  <Button mt={10} variant="filled" size="md" type="submit">Create Event</Button>
-              </form>
-          </Stack>
+                  <Button mt={10} variant="filled" size="md" type="submit">{btnText}</Button>
+              </Stack>
+          </form>
       </Modal>
   )
 }

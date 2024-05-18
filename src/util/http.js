@@ -1,11 +1,12 @@
 import { QueryClient } from '@tanstack/react-query'
-
 export const queryClient = new QueryClient()
+// https://packmatic-9e1d4-default-rtdb.firebaseio.com/events.json
+// functions on firebase like lambda functions
 
 export async function fetchEvents ( { signal, searchTerm } ) {
   // console.log( searchTerm )
-  // let url = 'http://localhost:3000/events'
-  let url = 'https://packmatic-9e1d4-default-rtdb.firebaseio.com/events.json'
+  let url = 'http://localhost:3000/events'
+  // let url = 'https://packmatic-9e1d4-default-rtdb.firebaseio.com/events.json'
 
   if ( searchTerm ) {
     url += '?search=' + searchTerm
@@ -19,31 +20,25 @@ export async function fetchEvents ( { signal, searchTerm } ) {
     error.info = await response.json()
     throw error
   }
-
+  /*
   const fireBaseEvents = await response.json()
+
   const events = Object.keys( fireBaseEvents ).map( ( e ) => {
     return {
-      id: e,
-      ...fireBaseEvents[e].event
+      ...fireBaseEvents[e],
+      id: e
     }
   } )
-  // console.log( 'Events:', events )
-  return events
+  */
+  const events = await response.json()
+  console.log( events )
+  return events.events
 }
 
 export async function createNewEvent ( eventData ) {
-  /*
-  const response = await fetch( 'http://localhost:3000/events', {
-    method: 'POST',
-    body: JSON.stringify( eventData ),
-    headers: {
-      'Content-Type': 'application/json'
-    })
-  */
-  // do a PUT to
-  // https://packmatic-9e1d4-default-rtdb.firebaseio.com/events.json
-  // functions on firebase like lambda functions
-  const response = await fetch( 'https://packmatic-9e1d4-default-rtdb.firebaseio.com/events.json',
+  const url = 'http://localhost:3000/events'
+  // const url = `https://packmatic-9e1d4-default-rtdb.firebaseio.com/events.json`
+  const response = await fetch( url,
     {
       method: 'POST',
       body: JSON.stringify( eventData ),
@@ -51,7 +46,6 @@ export async function createNewEvent ( eventData ) {
         'Content-Type': 'application/json'
       }
     } )
-  // console.log( 'Data:', eventData )
 
   if ( !response.ok ) {
     const error = new Error( 'An error occurred while creating the event' )
@@ -97,8 +91,10 @@ export async function fetchEvent ( { id, signal } ) {
 }
 
 export async function deleteEvent ( { id } ) {
-  // http://localhost:3000/events/
-  const response = await fetch( `https://packmatic-9e1d4-default-rtdb.firebaseio.com/events/${id}.json`, {
+  console.log( 'Deleting:', id )
+  const url = `http://localhost:3000/events/${id}`
+  // const url = `https://packmatic-9e1d4-default-rtdb.firebaseio.com/events/${id}.json`
+  const response = await fetch( url, {
     method: 'DELETE'
   } )
 
@@ -109,12 +105,14 @@ export async function deleteEvent ( { id } ) {
     throw error
   }
 
-  return response.json()
+  // console.log( 'Response:', response )
+  return response.statusText
 }
 
 export async function updateEvent ( { id, event } ) {
-  const response = await fetch( `http://localhost:3000/events/${id}`, {
-    method: 'PUT',
+  const url = `http://localhost:3000/events/${id}`
+  const response = await fetch( `https://packmatic-9e1d4-default-rtdb.firebaseio.com/events/${id}.json`, {
+    method: 'PATCH',
     body: JSON.stringify( { event } ),
     headers: {
       'Content-Type': 'application/json'
