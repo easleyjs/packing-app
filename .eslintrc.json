@@ -16,7 +16,7 @@
     ],
     "rules": {
       "react/prop-types": "off",
-      "semi": "warn",
+      "semi": ["warn", "always"],
       "prefer-const": "error",
       "space-in-parens": [
         "warn",
@@ -31,14 +31,9 @@
         "func-names": [
           "warn"
         ],
-        "@stylistic/array-bracket-spacing": [
+        "array-bracket-spacing": [
           "warn",
-          "always",
-          {
-            "singleValue": false,
-            "objectsInArrays": false,
-            "arraysInArrays": false
-          }
+          "always"
         ],
         "@stylistic/arrow-parens": [
           "error",
@@ -71,7 +66,7 @@
           "prefer-double"
         ],
         "@stylistic/jsx-indent": [
-          "error", 
+          "warn",
           4,
           {
             "checkAttributes": true

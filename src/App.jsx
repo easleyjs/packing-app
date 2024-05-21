@@ -1,26 +1,26 @@
-import React from 'react'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import { QueryClientProvider } from '@tanstack/react-query'
-import { queryClient } from './util/firebase.js'
-import { Provider } from 'react-redux'
-import store from './store'
+import React from 'react';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { queryClient } from './util/firebase.js';
+// import { Provider } from 'react-redux';
+// import store from './store';
+import configAppStore from './hook-store/app-store.js';
 
 import {
   MantineProvider
-} from '@mantine/core'
+} from '@mantine/core';
 // Reminder - all packages except `@mantine/hooks` require styles imports
-import '@mantine/core/styles.css'
+import '@mantine/core/styles.css';
 
-import RootLayout from './pages/Root.jsx'
-import HomePage from './pages/Home.jsx'
-import EventsPage from './pages/EventsPage.jsx'
-import ContainersPage from './pages/ContainersPage.jsx' //, { containerLoader }
-import NewContainerPage, { createContainer } from './pages/NewContainerPage.jsx'
-import ContainerDetail from './pages/ContainerDetail.jsx'
+import RootLayout from './pages/Root.jsx';
+import HomePage from './pages/Home.jsx';
+import EventsPage from './pages/EventsPage.jsx';
+import ContainersPage from './pages/ContainersPage.jsx'; //, { containerLoader }
+import NewContainerPage, { createContainer } from './pages/NewContainerPage.jsx';
+import ContainerDetail from './pages/ContainerDetail.jsx';
 
 // to-do:
 /*
-loader to get Redux store (possibly do Thunk action) for Containers
 try moving container/* routes as child routes under /containers
 
 optimize New Container form:
@@ -30,6 +30,8 @@ optimize New Container form:
 */
 
 // https://mantine.dev/styles/css-variables/#css-variables-resolver
+
+configAppStore();
 
 function App () {
   const router = createBrowserRouter( [
@@ -45,22 +47,18 @@ function App () {
       ]
     }
 
-  ] )
+  ] );
 
   return (
-      <Provider
-            store={ store }
-      >
-          <MantineProvider>
-              <QueryClientProvider client={queryClient}>
-                  <RouterProvider
+      <MantineProvider>
+          <QueryClientProvider client={queryClient}>
+              <RouterProvider
                     router={ router }
-                  >
-                  </RouterProvider>
-              </QueryClientProvider>
-          </MantineProvider>
-      </Provider>
-  )
+              >
+              </RouterProvider>
+          </QueryClientProvider>
+      </MantineProvider>
+  );
 }
 
-export default App
+export default App;

@@ -1,50 +1,53 @@
-import React, { useState } from 'react'
-import { useQuery } from '@tanstack/react-query'
-import { createNewEvent, fetchEvents, updateEvent } from '../util/firebase.js'
-import { Link } from 'react-router-dom'
-import { Button, Container, Stack, Text } from '@mantine/core'
-// import store from '../store/index'
-// import { eventActions } from '../store/event-slice.js'
-import EventDisplayCard from '../components/EventDisplayCard/EventDisplayCard.jsx'
-import EventModal from '../components/EventModal/EventModal.jsx'
+import React, { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { createNewEvent, fetchEvents, updateEvent } from '../util/firebase.js';
+import { Link } from 'react-router-dom';
+import { Button, Container, Stack, Text } from '@mantine/core';
+import { useStore } from '../hook-store/store';
+
+import EventDisplayCard from '../components/EventDisplayCard/EventDisplayCard.jsx';
+import EventModal from '../components/EventModal/EventModal.jsx';
 
 function EventsPage () {
+  const dispatch = useStore( false )[1];
+
   const { data, isPending, isError, error } = useQuery( {
-    queryKey: ['events'],
+    queryKey: [ 'events' ],
     queryFn: fetchEvents
-  } )
+  } );
 
-  const [ shouldModalOpen, setShouldModalOpen ] = useState( false )
-  const [ selectedModalType, setSelectedModalType ] = useState( null )
-  const [ selectedMutateFunction, setSelectedMutateFunction] = useState( null )
+  const [ shouldModalOpen, setShouldModalOpen ] = useState( false );
+  const [ selectedModalType, setSelectedModalType ] = useState( null );
+  const [ selectedMutateFunction, setSelectedMutateFunction ] = useState( null );
 
-  const handleModalOpen = ( modalType ) => {
+  const handleModalOpen = ( modalType, eventObj ) => {
     setSelectedModalType( () => {
-      return modalType
-    } )
+      return modalType;
+    } );
     if ( modalType === 'add' ) {
       setSelectedMutateFunction( () => {
-        return createNewEvent
-      } )
+        return createNewEvent;
+      } );
     }
     if ( modalType === 'edit' ) {
       setSelectedMutateFunction( () => {
-        return updateEvent
-      } )
+        return updateEvent;
+      } );
     }
     setShouldModalOpen( () => {
-      return true
-    } )
-  }
+      return true;
+    } );
+  };
 
   const handleModalClose = () => {
+    dispatch( 'SET_CURR_EVENT', {} );
     setSelectedModalType( () => {
-      return null
-    } )
+      return null;
+    } );
     setShouldModalOpen( () => {
-      return false
-    } )
-  }
+      return false;
+    } );
+  };
 
   // console.log( 'Data:', data )
   return (
@@ -57,7 +60,7 @@ function EventsPage () {
                   color="indigo"
                   size="compact-xs"
                   mb="0.35rem"
-                  onClick={() => { handleModalOpen( 'add' ) }}
+                  onClick={() => { handleModalOpen( 'add' ); }}
                 >Add Event
                 </Button>
                 { data.map( ( e ) => {
@@ -65,8 +68,8 @@ function EventsPage () {
                             editModalHandler={handleModalOpen}
                             closeModalHandler={handleModalClose}
                             key={e.id}
-                            evt={e}
-                  />
+                  evt={e}
+                         />
                 } )
                 }
               </>
@@ -80,20 +83,19 @@ function EventsPage () {
                     gap={0}
                 >
                     <h2>No Events here yet!</h2>
-                    <h3>Why not <Button onClick={() => { handleModalOpen( 'add' ) }}>Add</Button> one?</h3>
+                    <h3>Why not <Button onClick={() => { handleModalOpen( 'add' ); }}>Add</Button> one?</h3>
                 </Stack>
               </Container>
           }
           <EventModal
-            modalType={ selectedModalType }
             opened={ shouldModalOpen }
+            modalType={ selectedModalType }
             closeModal={ handleModalClose }
             mutateFunction={ selectedMutateFunction }
-            selectedEvent
           />
 
       </>
-  )
+  );
 }
 
-export default EventsPage
+export default EventsPage;
