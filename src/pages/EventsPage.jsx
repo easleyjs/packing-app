@@ -18,7 +18,7 @@ function EventsPage () {
 
   const [ shouldModalOpen, setShouldModalOpen ] = useState( false );
 
-  const handleModalOpen = ( modalType, eventObj ) => {
+  const handleModalOpen = ( modalType ) => {
     dispatch( 'SET_EVENT_MODAL_TYPE', modalType );
     setShouldModalOpen( () => {
       return true;
