@@ -12,40 +12,41 @@ add field validation later:
     },
 */
 
-export default function EventModal ( { opened, closeModal, modalType, mutateFunction, children } ) {
+export default function EventModal ( { opened, closeModal } ) {
   const state = useStore()[0];
-  console.log( state.currEvent );
+  const { eventModalType, eventMutator } = state;
 
-  //    initialValues: getInitialValues( state.currEvent )
   const form = useForm( {
     mode: 'uncontrolled'
   } );
-  // form.setValues( getInitialValues( state.currEvent ) );
 
   let [ modalTitle, btnText ] = '';
 
-  if ( modalType === 'add' ) {
+  if ( eventModalType === 'add' ) {
     modalTitle = 'New Event';
     btnText = 'Add';
   }
 
-  if ( modalType === 'edit' ) {
+  if ( eventModalType === 'edit' ) {
     modalTitle = 'Edit Event';
     btnText = 'Update';
   }
 
   const { mutate } = useMutation( {
-    mutationFn: mutateFunction,
+    mutationFn: eventMutator, // mutateFunction,
     onSuccess: () => {
       queryClient.invalidateQueries( { queryKey: [ 'events' ] } );
-      // console.log( 'QueryData:', queryClient.getQueryData( { queryKey: ['events'] } ) )
     }
   } );
 
   const handleSubmit = ( values ) => {
-    // console.log( 'Selected Event:', selectedEvent )
-    console.log( 'Form:', values );
-    mutate( { ...values, id: state.currEvent.id } );
+    const docObj = { ...values };
+
+    if ( eventModalType === 'edit' ) {
+      docObj.id = state.currEvent.id;
+    }
+
+    mutate( { ...docObj } );
     form.reset();
     closeModal();
   };

@@ -11,6 +11,7 @@ const EventDisplayCard = React.memo( function EventDisplayCard ( props ) {
   const dispatch = useStore( false )[1];
 
   const navigate = useNavigate();
+
   const { mutate } = useMutation( {
     mutationFn: deleteEvent,
     onSuccess: () => {
@@ -34,7 +35,6 @@ const EventDisplayCard = React.memo( function EventDisplayCard ( props ) {
 
   const handleEditEvent = ( event ) => {
     event.stopPropagation();
-    // console.log( evt )
     dispatch( 'SET_CURR_EVENT', { ...props.evt } );
     editModalHandler( 'edit' );
   };

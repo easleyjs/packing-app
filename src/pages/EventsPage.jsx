@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { createNewEvent, fetchEvents, updateEvent } from '../util/firebase.js';
+import { fetchEvents } from '../util/firebase.js';
 import { Link } from 'react-router-dom';
 import { Button, Container, Stack, Text } from '@mantine/core';
 import { useStore } from '../hook-store/store';
@@ -17,23 +17,9 @@ function EventsPage () {
   } );
 
   const [ shouldModalOpen, setShouldModalOpen ] = useState( false );
-  const [ selectedModalType, setSelectedModalType ] = useState( null );
-  const [ selectedMutateFunction, setSelectedMutateFunction ] = useState( null );
 
   const handleModalOpen = ( modalType, eventObj ) => {
-    setSelectedModalType( () => {
-      return modalType;
-    } );
-    if ( modalType === 'add' ) {
-      setSelectedMutateFunction( () => {
-        return createNewEvent;
-      } );
-    }
-    if ( modalType === 'edit' ) {
-      setSelectedMutateFunction( () => {
-        return updateEvent;
-      } );
-    }
+    dispatch( 'SET_EVENT_MODAL_TYPE', modalType );
     setShouldModalOpen( () => {
       return true;
     } );
@@ -41,9 +27,6 @@ function EventsPage () {
 
   const handleModalClose = () => {
     dispatch( 'SET_CURR_EVENT', {} );
-    setSelectedModalType( () => {
-      return null;
-    } );
     setShouldModalOpen( () => {
       return false;
     } );
@@ -89,9 +72,7 @@ function EventsPage () {
           }
           <EventModal
             opened={ shouldModalOpen }
-            modalType={ selectedModalType }
             closeModal={ handleModalClose }
-            mutateFunction={ selectedMutateFunction }
           />
 
       </>
