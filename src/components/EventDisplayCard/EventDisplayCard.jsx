@@ -1,23 +1,14 @@
 import React from 'react';
-import { useMutation } from '@tanstack/react-query';
-import { queryClient, deleteEvent } from '../../util/firebase.js';
 import { Grid, Text, Paper, Button } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
 import { useStore } from '../../hook-store/store.js';
 
 const EventDisplayCard = React.memo( function EventDisplayCard ( props ) {
-  const { editModalHandler } = props;
+  const { eventModalHandler } = props;
   const { name, description, id } = props.evt;
   const dispatch = useStore( false )[1];
 
   const navigate = useNavigate();
-
-  const { mutate } = useMutation( {
-    mutationFn: deleteEvent,
-    onSuccess: () => {
-      queryClient.invalidateQueries( { queryKey: [ 'events' ] } );
-    }
-  } );
 
   const eventSelectHandler = ( event, id ) => {
     event.preventDefault();
@@ -28,15 +19,16 @@ const EventDisplayCard = React.memo( function EventDisplayCard ( props ) {
     // navigate( '/events/' )
   };
 
-  const handleRemoveEvent = ( event, id ) => {
+  const handleRemoveEvent = ( event ) => {
     event.stopPropagation();
-    mutate( { id } );
+    dispatch( 'SET_CURR_EVENT', { ...props.evt } );
+    eventModalHandler( 'remove' );
   };
 
   const handleEditEvent = ( event ) => {
     event.stopPropagation();
     dispatch( 'SET_CURR_EVENT', { ...props.evt } );
-    editModalHandler( 'edit' );
+    eventModalHandler( 'edit' );
   };
 
   return (
@@ -54,9 +46,6 @@ const EventDisplayCard = React.memo( function EventDisplayCard ( props ) {
           <Grid justify="space-between" align="baseline">
               <Grid.Col span="content">
                   <Text fw={500} size="md">{ name }</Text>
-              </Grid.Col>
-              <Grid.Col span="content">
-                  <Text c="gray" size="sm">{ description }</Text>
               </Grid.Col>
               <Grid.Col span="content">
                   <Button

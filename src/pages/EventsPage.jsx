@@ -7,6 +7,7 @@ import { useStore } from '../hook-store/store';
 
 import EventDisplayCard from '../components/EventDisplayCard/EventDisplayCard.jsx';
 import EventModal from '../components/EventModal/EventModal.jsx';
+import EventRemoveModal from '../components/EventRemoveModal/EventRemoveModal.jsx';
 
 function EventsPage () {
   const dispatch = useStore( false )[1];
@@ -16,20 +17,33 @@ function EventsPage () {
     queryFn: fetchEvents
   } );
 
-  const [ shouldModalOpen, setShouldModalOpen ] = useState( false );
+  const [ shouldEventModalOpen, setShouldEventModalOpen ] = useState( false );
+  const [ shouldRemoveModalOpen, setShouldRemoveModalOpen ] = useState( false );
 
   const handleModalOpen = ( modalType ) => {
     dispatch( 'SET_EVENT_MODAL_TYPE', modalType );
-    setShouldModalOpen( () => {
-      return true;
-    } );
+    if ( modalType === 'remove' ) {
+      setShouldRemoveModalOpen( () => {
+        return true;
+      } );
+    } else {
+      setShouldEventModalOpen( () => {
+        return true;
+      } );
+    }
   };
 
-  const handleModalClose = () => {
-    dispatch( 'SET_CURR_EVENT', {} );
-    setShouldModalOpen( () => {
-      return false;
-    } );
+  const handleModalClose = ( modalType ) => {
+    if ( modalType === 'remove' ) {
+      setShouldRemoveModalOpen( () => {
+        return false;
+      } );
+    } else {
+      dispatch( 'SET_CURR_EVENT', {} );
+      setShouldEventModalOpen( () => {
+        return false;
+      } );
+    }
   };
 
   // console.log( 'Data:', data )
@@ -48,7 +62,7 @@ function EventsPage () {
                 </Button>
                 { data.map( ( e ) => {
                   return <EventDisplayCard
-                            editModalHandler={handleModalOpen}
+                            eventModalHandler={handleModalOpen}
                             closeModalHandler={handleModalClose}
                             key={e.id}
                   evt={e}
@@ -71,10 +85,13 @@ function EventsPage () {
               </Container>
           }
           <EventModal
-            opened={ shouldModalOpen }
+            opened={ shouldEventModalOpen }
             closeModal={ handleModalClose }
           />
-
+          <EventRemoveModal
+            opened={ shouldRemoveModalOpen }
+            closeModal={ handleModalClose }
+          />
       </>
   );
 }

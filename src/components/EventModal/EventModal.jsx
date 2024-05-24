@@ -1,7 +1,7 @@
 import React from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { queryClient } from '../../util/firebase';
-import { Button, Modal, Stack, TextInput } from '@mantine/core';
+import { Button, Center, Modal, Stack, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useStore } from '../../hook-store/store';
 
@@ -85,7 +85,10 @@ export default function EventModal ( { opened, closeModal } ) {
                     {...form.getInputProps( 'description' )}
                     defaultValue={state.currEvent.description || ''}
                   />
-                  <Button mt={10} variant="filled" size="md" type="submit">{btnText}</Button>
+                  <Center>
+                      <Button variant="filled" size="sm" type="submit">{btnText}</Button>
+                      <Button ml={5} variant="outline" size="sm" type="button" onClick={handleClose}>Cancel</Button>
+                  </Center>
               </Stack>
           </form>
       </Modal>
