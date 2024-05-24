@@ -12,11 +12,11 @@ const EventDisplayCard = React.memo( function EventDisplayCard ( props ) {
 
   const eventSelectHandler = ( event, id ) => {
     event.preventDefault();
-    alert( 'im a test event - new' );
+    // alert( 'im a test event - new' );
     // dispatch app slice update with selected id
     // get data/containers for that event
     // redirect to Containers page
-    // navigate( '/events/' )
+    navigate( '/events/' + id );
   };
 
   const handleRemoveEvent = ( event ) => {
@@ -41,7 +41,7 @@ const EventDisplayCard = React.memo( function EventDisplayCard ( props ) {
         w="40%"
         style={{ cursor: 'default' }}
         withBorder
-        onClick={( e ) => props.eventSelectHandler( e, id )}
+        onClick={( e ) => eventSelectHandler( e, id )}
       >
           <Grid justify="space-between" align="baseline">
               <Grid.Col span="content">

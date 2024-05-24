@@ -85,7 +85,7 @@ export default function EventModal ( { opened, closeModal } ) {
                     {...form.getInputProps( 'description' )}
                     defaultValue={state.currEvent.description || ''}
                   />
-                  <Center>
+                  <Center mt={20}>
                       <Button variant="filled" size="sm" type="submit">{btnText}</Button>
                       <Button ml={5} variant="outline" size="sm" type="button" onClick={handleClose}>Cancel</Button>
                   </Center>

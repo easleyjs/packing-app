@@ -38,13 +38,20 @@ export default function EventRemoveModal ( props ) {
           onClose={handleClose}
           title={modalTitle}
       >
-          <Center><Text>Are you sure you want to remove event:</Text></Center>
-          <Center><Text fw={500}>"{ name }"</Text></Center>
-          <Text>(This will remove all Containers and Items for this Event.)</Text>
-          <Center mt={20}>
-              <Button variant="filled" color="red" size="sm" type="button" onClick={handleRemoveEvent}>{ btnText }</Button>
-              <Button ml={5} variant="outline" size="sm" type="button" onClick={handleClose}>Cancel</Button>
-          </Center>
+          <Stack
+            mt={20}
+            align="center"
+            justify="center"
+            gap="sm"
+          >
+              <Text>Are you sure you want to remove:</Text>
+              <Text fw={500}>"{ name }"</Text>
+              <Text size="xs" fw={500}>(This will remove all Containers and Items for this Event.)</Text>
+              <Center mt={20}>
+                  <Button variant="filled" color="red" size="sm" type="button" onClick={handleRemoveEvent}>{ btnText }</Button>
+                  <Button ml={5} variant="outline" size="sm" type="button" onClick={handleClose}>Cancel</Button>
+              </Center>
+          </Stack>
 
       </Modal>
   );
