@@ -1,6 +1,6 @@
 import { QueryClient } from '@tanstack/react-query';
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, doc, addDoc, getDocs, deleteDoc, updateDoc } from 'firebase/firestore';
+import { getFirestore, collection, doc, addDoc, getDoc, getDocs, deleteDoc, updateDoc } from 'firebase/firestore';
 
 export const queryClient = new QueryClient();
 
@@ -22,6 +22,32 @@ export async function fetchEvents ( { signal, searchTerm } ) {
   } );
 
   return events;
+}
+
+export async function fetchSingleEvent ( { signal, eventId } ) {
+  const app = initializeApp( firebaseConfig );
+  console.log( eventId );
+
+  // Initialize Cloud Firestore and get a reference to the service
+  const db = getFirestore( app );
+  let eventDetails;
+
+  try {
+    const docRef = doc( db, 'events', eventId );
+    const result = await getDoc( docRef );
+
+    if ( result.exists() ) {
+      eventDetails = result.data();
+    }
+    console.log( eventDetails );
+
+    return eventDetails;
+  } catch ( e ) {
+    const error = new Error( 'An error occurred while searching for event' );
+    error.info = e;
+    console.error( 'Error finding document: ', e );
+    throw error;
+  }
 }
 
 export async function createNewEvent ( eventData ) {
